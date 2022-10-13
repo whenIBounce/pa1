@@ -30,6 +30,10 @@ typedef struct join_queue_entry {
 // Queues
 static deque<TCB*> ready_queue;
 
+TCB* thread_arr[MAX_THREAD_NUM]
+
+
+
 
 // Interrupt Management --------------------------------------------------------
 
@@ -37,6 +41,7 @@ static deque<TCB*> ready_queue;
 static void startInterruptTimer()
 {
         // TODO
+        ///////sigactions(SIGVTALRM, &)
 }
 
 // Block signals from firing timer interrupt
@@ -110,14 +115,52 @@ void stub(void *(*start_routine)(void *), void *arg)
 
 int uthread_init(int quantum_usecs)
 {
+
+
+        if(quantum_usecs <= 0){
+          return -1
+        }
+
         // Initialize any data structures
+        struct timeval sigactions
+        struct itimeval itimeval_val
+
+        sigactions.sa_handler = switchThreads;
+        sigactions.sa_flags = 0;
+
+
         // Setup timer interrupt and handler
+
+        if (sigactions(SIGVTALRM, &sigactions, nullptr)<0){
+          return -1
+        }
+
+        if(setitimer(ITIMER_VIRTUAL, &itimeval_val, nullptr) == -1){
+          return -1
+        }
+
+
+
         // Create a thread for the caller (main) thread
+        TCB *main_thread = new TCB (0, nullptr, nullptr, RUNNING);
+        thread_arr[0] = main_thread
+        return 0
 }
 
 int uthread_create(void* (*start_routine)(void*), void* arg)
 {
         // Create a new thread and add it to the ready queue
+        static int id = 0;
+        if(index <= MAX_THREAD_NUM){
+          TCB *tcb = new TCB(id, start_routine, arg, READY);
+          thread_arr[id] = tcb;
+          addToReadyQueue(tcb);
+          id++;
+          return id-1;
+        }
+        else{
+          return -1;
+        }
 }
 
 int uthread_join(int tid, void **retval)
