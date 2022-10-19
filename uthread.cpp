@@ -373,7 +373,7 @@ int uthread_resume(int tid)
 
 int uthread_self()
 {
-	return runningThread->getId();
+        return runningThread->getId();
 }
 
 int uthread_get_total_quantums()
