@@ -212,40 +212,6 @@ void test_suspend_and_resume(){
 
 }
 
-// void test_suspend_by_different_thread_and_resume() {
-//     // Default to 1 ms time quantum
-//     int quantum_usecs = 100; // keeping quantum_usecs large enough to let the code only work based on yield
-
-//     int *threads = new int[3];
-//     // Init user thread library
-//     int ret = uthread_init(quantum_usecs);
-//     unsigned long *result;
-//     if (ret != 0) {
-//         cerr << "uthread_init FAIL!\n" << endl;
-//         exit(1);
-//     }
-    
-//     arguments_for_worker args = {1,3,2,-1};
-//     threads[0] = uthread_create(worker5, &args);
-//     arguments_for_worker args1 = {11,15,3,-1};
-//     threads[1] = uthread_create(worker5, &args1);
-//     arguments_for_worker args2 = {21,25,4,-1};
-//     threads[2] = uthread_create(worker5, &args2);
-//     args.thread_to_be_suspended = threads[1];
-
-//     cout<<"Threads Created\n";
-//     for (int i = 0; i < 3; i++) {
-// 	    cout << "Joining on - " << threads[i] << "\n";
-// 	    uthread_join(threads[i], NULL);
-// 	    if (i == 0) {
-// 		    cout<<"Resuming thread " << threads[1] << "\n";
-// 		    uthread_resume(threads[1]);
-//             }
-//     }
-
-//     cout<<"Exiting"<<endl;
-//     delete[] threads;
-// }
 
 int main(int argc, char *argv[]) {
     printf("TEST YEILD FUNCTION: \n");
@@ -256,5 +222,4 @@ int main(int argc, char *argv[]) {
     test_join();
     printf("TEST SUSPEND AND RESUME FUNCTION: \n");
     test_suspend_and_resume();
-    // test_suspend_by_different_thread_and_resume();
 }
