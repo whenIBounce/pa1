@@ -1,7 +1,5 @@
-/*
- *
- */
 #ifndef TCB_H
+#define STACK_SIZE 4096
 #define TCB_H
 
 #include <stdio.h>
@@ -23,6 +21,8 @@ class TCB
 {
 
 public:
+	// Making context public
+	ucontext_t _context;    // The thread's saved context
 	/**
 	 * Constructor for TCB. Allocate a thread stack and setup the thread
 	 * context to call the stub function
@@ -32,6 +32,8 @@ public:
 	 * @param state current state for the new thread
 	 */
 	TCB(int tid, void *(*start_routine)(void* arg), void *arg, State state);
+
+	TCB(int tid, State state);
 	
 	/**
 	 * thread d-tor
@@ -59,7 +61,7 @@ public:
 	/**
 	 * function to increase the quantum of the thread
 	 */
-	void increaseQuantum();
+	void increaseQuantum(int delta);
 	
 	/**
 	 * function that get the quantum of the thread
@@ -67,23 +69,13 @@ public:
 	 */
 	 int getQuantum() const;
 
-	/**
-	 * function that saves the thread's context
-         * @return zero on success, -1 on failure
-	 */
-	int saveContext();
-
-	/**
-	 * function that loads the thread's previously saved context
-	 */
-	void loadContext();
 
 private:
 	int _tid;               // The thread id number.
 	int _quantum;           // The time interval, as explained in the pdf.
 	State _state;           // The state of the thread
 	char* _stack;           // The thread's stack
-        ucontext_t _context;    // The thread's saved context
+	// ucontext_t _context;    // The thread's saved context
 };
 
 
