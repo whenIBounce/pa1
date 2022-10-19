@@ -29,6 +29,11 @@ typedef struct join_queue_entry {
 
 // Queues
 static deque<TCB*> ready_queue;
+static deque<TCB*> block_queue;
+
+static deque<join_queue_entry_t>join_queue;
+static deque<finished_queue_entry_t>finished_queue;
+
 
 TCB* thread_arr[MAX_THREAD_NUM]
 
@@ -116,7 +121,6 @@ void stub(void *(*start_routine)(void *), void *arg)
 int uthread_init(int quantum_usecs)
 {
 
-
         if(quantum_usecs <= 0){
           return -1
         }
@@ -138,8 +142,6 @@ int uthread_init(int quantum_usecs)
         if(setitimer(ITIMER_VIRTUAL, &itimeval_val, nullptr) == -1){
           return -1
         }
-
-
 
         // Create a thread for the caller (main) thread
         TCB *main_thread = new TCB (0, nullptr, nullptr, RUNNING);
@@ -168,6 +170,8 @@ int uthread_join(int tid, void **retval)
         // If the thread specified by tid is already terminated, just return
         // If the thread specified by tid is still running, block until it terminates
         // Set *retval to be the result of thread if retval != nullptr
+
+
 }
 
 int uthread_yield(void)
