@@ -155,8 +155,8 @@ void test_join(){
         exit(1);
     }
     join_params param1 = {1,2,2};
-    join_params param2 = {13,26,4};
-    join_params param3 = {7,19,3};
+    join_params param2 = {13,20,4};
+    join_params param3 = {25,31,3};
 
     threads[0] = uthread_create(worker3, &param1);
     threads[1] = uthread_create(worker3, &param2);
