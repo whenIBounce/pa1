@@ -234,7 +234,7 @@ int uthread_init(int quantum_usecs)
     struct sigaction timer_signal;
     timer_signal.sa_handler = scheduler_function;
     sigemptyset(&timer_signal.sa_mask);
-    timer_signal.sa_flags = 0;
+    timer_signal.sa_flags = 0; // SIG_DFL = 0
     
     sigaction(SIGVTALRM, &timer_signal, NULL);
 
