@@ -176,3 +176,6 @@ uthread_create() and uthread_init() are used in every test cases so we did not i
 
 
 ## How did your library pass input/output parameters to a thread entry function? What must ``makecontext`` do “under the hood” to invoke the new thread execution?
+
+The library created s stub function to call thrad entry fuction. Our library can customized the input type and pass it to the void* argument of the thread entry level function, which is the second argument of the uthread_crate(). The output is passed and updated during call of uthread_join.
+To invoke the new thread execution, the program counter has to be switched to the thread entry function and change the sp to the specified memory location. In order to do so, makecontext points the program counter of the context, which is passed to the function as a parameter, to the thread entry function and puts the function arguments on the stack of the context.
